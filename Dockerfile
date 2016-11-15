@@ -9,7 +9,11 @@ RUN apt-get update -qq && apt-get install -qqy \
     curl \
     lxc \
     iptables \
-    git
+    git \
+    zip \
+    supervisor \
+    default-jre-headless && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Docker from Docker Inc. repositories.
 RUN curl -sSL https://get.docker.com/ | sh
@@ -26,15 +30,27 @@ VOLUME /var/lib/docker
 
 ENV DOCKER_COMPOSE_VERSION 1.7.0
 
-RUN wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | apt-key add -
-RUN sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
-RUN apt-get update && apt-get install -y zip supervisor jenkins && rm -rf /var/lib/apt/lists/*
-RUN usermod -a -G docker jenkins
 ENV JENKINS_HOME /var/lib/jenkins
+RUN \
+  mkdir ${JENKINS_HOME} && \
+  useradd jenkins --home-dir ${JENKINS_HOME} && \
+  chown jenkins:jenkins ${JENKINS_HOME} && \
+  usermod -a -G docker jenkins
 
 # Install Docker Compose
-RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+RUN curl -s -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
+
+# Download Jenkins Swarm plugin
+ENV SWARM_VERSION 2.2
+ADD https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${SWARM_VERSION}/swarm-client-${SWARM_VERSION}-jar-with-dependencies.jar /root/swarm-client-jar-with-dependencies.jar
+
+ENV \
+  URL="" \
+  USERNAME="" \
+  PASSWORD="" \
+  FSROOT="/var/lib/jenkins/" \
+  EXECUTORS="1"
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
