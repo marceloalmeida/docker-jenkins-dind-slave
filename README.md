@@ -11,5 +11,14 @@ This Docker image is based on [jpetazzo/dind](https://registry.hub.docker.com/u/
 Run:
 
 ```
-docker run --name jenkins-dind-slave --privileged -d -e JAR_URL=http://[jenkins_master_url]:8080/jnlpJars/slave.jar -e URL=http://[jenkins_master_url]:8080 -e SECRET=qwertyuiopasdfghjklzxcvbnm1234567890 -e NODE_NAME=slave1 marceloalmeida/jenkins-dind-slave
+docker run \
+  --name jenkins-dind-slave \
+  --privileged=true \
+  --detach=true \
+  -e URL=http://[jenkins_master_url]:8080 \
+  -e USERNAME=username \
+  -e PASSWORD=qwertyuiopasdfghjklzxcvbnm1234567890 \
+  -e DOCKER_DAEMON_ARGS="--storage-driver=overlay2 --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375" \
+  -v /lib/modules:/lib/modules:ro
+marceloalmeida/jenkins-dind-slave
 ```
