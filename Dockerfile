@@ -13,6 +13,7 @@ RUN apt-get update -qq && apt-get install -qqy \
     zip \
     supervisor \
     default-jre-headless && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Docker from Docker Inc. repositories.
