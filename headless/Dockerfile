@@ -36,16 +36,11 @@ RUN \
   chown jenkins:jenkins ${JENKINS_HOME} && \
   usermod -a -G docker jenkins
 
-# Download Jenkins Swarm plugin
-ENV SWARM_VERSION 2.2
-ADD https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${SWARM_VERSION}/swarm-client-${SWARM_VERSION}-jar-with-dependencies.jar /root/swarm-client-jar-with-dependencies.jar
-
 ENV \
-  URL="" \
-  USERNAME="" \
-  PASSWORD="" \
-  FSROOT="/var/lib/jenkins/" \
-  EXECUTORS="1"
+  JAR_URL="http://[jenkins_master_url]:8080/jnlpJars/slave.jar" \
+  URL="http://[jenkins_master_url]:8080" \
+  SECRET="" \
+  NODE_NAME="slave"
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
