@@ -1,6 +1,6 @@
 FROM debian:jessie-backports
 
-MAINTAINER Marcelo Almeida <marcelo.almeida@jumia.com>
+MAINTAINER Marcelo Almeida <ms.almeida86@gmail.com>
 
 # Let's start with some basic stuff.
 RUN apt-get update -qq && apt-get install -qqy \
