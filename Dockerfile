@@ -45,7 +45,10 @@ ENV \
   USERNAME="" \
   PASSWORD="" \
   FSROOT="/var/lib/jenkins/" \
-  EXECUTORS="1"
+  EXECUTORS="1" \
+  GIT_TIMEOUT="60" \
+  MAX_HEAP_SIZE="512m" \
+  MAX_PERM_SIZE="2048m"
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
