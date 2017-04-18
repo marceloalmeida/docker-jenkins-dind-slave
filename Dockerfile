@@ -2,8 +2,10 @@ FROM debian:jessie-backports
 
 MAINTAINER Marcelo Almeida <ms.almeida86@gmail.com>
 
+ENV DEBIAN_FRONTEND "noninteractive"
+
 # Let's start with some basic stuff.
-RUN apt-get update -qq && apt-get install -qqy \
+RUN apt-get update && apt-get -t jessie-backports install -y --no-install-recommends \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -12,7 +14,8 @@ RUN apt-get update -qq && apt-get install -qqy \
     git \
     zip \
     supervisor \
-    default-jre-headless && \
+    openjdk-8-jdk-headless \
+    ca-certificates-java && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
