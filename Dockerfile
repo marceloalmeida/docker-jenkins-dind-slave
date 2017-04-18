@@ -41,7 +41,7 @@ RUN \
 
 # Download Jenkins Swarm plugin
 ENV SWARM_VERSION 3.4
-ADD https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${SWARM_VERSION}/swarm-client-${SWARM_VERSION}-jar-with-dependencies.jar /root/swarm-client-jar-with-dependencies.jar
+ADD https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${SWARM_VERSION}/swarm-client-${SWARM_VERSION}.jar /root/swarm-client.jar
 
 ENV \
   URL="" \
