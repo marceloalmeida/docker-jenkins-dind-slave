@@ -32,7 +32,8 @@ RUN chmod +x /usr/local/bin/wrapdocker
 # Define additional metadata for our image.
 VOLUME /var/lib/docker
 
-ENV JENKINS_HOME /var/lib/jenkins
+ENV \
+  JENKINS_HOME="/var/lib/jenkins/"
 RUN \
   mkdir ${JENKINS_HOME} && \
   useradd jenkins --home-dir ${JENKINS_HOME} && \
@@ -47,7 +48,7 @@ ENV \
   URL="" \
   USERNAME="" \
   PASSWORD="" \
-  FSROOT="/var/lib/jenkins/" \
+  FSROOT="${JENKINS_HOME}" \
   EXECUTORS="1" \
   GIT_TIMEOUT="60" \
   MAX_HEAP_SIZE="512m" \
